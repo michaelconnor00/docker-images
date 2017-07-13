@@ -17,7 +17,21 @@ RUN apt-get install -y --force-yes \
     libffi-dev \
     python-dev \
     python \
-    oracle-java8-installer
+    oracle-java8-installer \
+
+# Another layer for smaller more frequent changes, so the above isn't invalidated 
+RUN apt-get install -y \
+    zip \
+    psmisc
+
+# Install driver
+RUN wget -N http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip && \
+    unzip chromedriver_linux64.zip && \
+    chmod 755 chromedriver && \
+    mv -f chromedriver /usr/local/share/chromedriver && \
+    ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver && \
+    ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+
 
 RUN wget --quiet https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
