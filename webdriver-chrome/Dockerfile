@@ -18,6 +18,8 @@ WORKDIR /home/node
 RUN npm install \
     webdriverio \
     wdio-mocha-framework \
-    wdio-spec-reporter
+    wdio-spec-reporter \
+    selenium-standalone \
+    wdio-selenium-standalone-service
 
 RUN npm install --save-dev wdio-junit-reporter
