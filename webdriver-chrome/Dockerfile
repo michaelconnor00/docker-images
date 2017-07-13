@@ -17,9 +17,9 @@ RUN apt-get install -y --force-yes \
     libffi-dev \
     python-dev \
     python \
-    oracle-java8-installer \
+    oracle-java8-installer
 
-# Another layer for smaller more frequent changes, so the above isn't invalidated 
+# Another layer for smaller more frequent changes, so the above isn't invalidated
 RUN apt-get install -y \
     zip \
     psmisc
