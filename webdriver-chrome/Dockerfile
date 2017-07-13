@@ -6,7 +6,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /
 RUN echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/java-8-debian.list
 
 RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get install -y --force-yes \
     xvfb \
     build-essential \
     libssl-dev \
