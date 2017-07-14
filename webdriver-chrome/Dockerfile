@@ -19,6 +19,8 @@ RUN apt-get install -y --force-yes \
     python \
     oracle-java8-installer
 
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
 # Another layer for smaller more frequent changes, so the above isn't invalidated
 RUN apt-get install -y \
     zip \
@@ -33,12 +35,12 @@ RUN wget -N --quiet https://chromedriver.storage.googleapis.com/2.30/chromedrive
     ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
 
 # Install Firefox driver
-RUN wget -N --quiet https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz && \
-    tar -xzvf geckodriver-v0.18.0-linux64.tar.gz && \
-    chmod 755 geckodriver && \
-    mv -f geckodriver /usr/local/share/geckodriver && \
-    ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver && \
-    ln -s /usr/local/share/geckodriver /usr/bin/geckodriver
+RUN wget -N --quiet https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz #
+RUN tar -xzvf geckodriver-v0.18.0-linux64.tar.gz #
+RUN chmod 755 geckodriver #
+RUN mv -f geckodriver /usr/local/share/geckodriver #
+RUN ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver #
+RUN ln -s /usr/local/share/geckodriver /usr/bin/geckodriver
 
 # Install Chrome
 RUN wget --quiet https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -46,7 +48,7 @@ RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 
 # Install node packages
 WORKDIR /home/node
-RUN npm install \
+RUN npm install --silent \
     webdriverio \
     wdio-mocha-framework \
     wdio-spec-reporter \
