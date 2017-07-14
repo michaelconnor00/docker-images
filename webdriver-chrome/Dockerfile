@@ -24,15 +24,23 @@ RUN apt-get install -y \
     zip \
     psmisc
 
-# Install driver
-RUN wget -N http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip && \
+# Install Chrome driver
+RUN wget -N --quiet https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     chmod 755 chromedriver && \
     mv -f chromedriver /usr/local/share/chromedriver && \
     ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver && \
     ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
 
+# Install Firefox driver
+RUN wget -N --quiet https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz && \
+    tar -xzvf geckodriver-v0.18.0-linux64.tar.gz && \
+    chmod 755 geckodriver && \
+    mv -f geckodriver /usr/local/share/geckodriver && \
+    ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver && \
+    ln -s /usr/local/share/geckodriver /usr/bin/geckodriver
 
+# Install Chrome
 RUN wget --quiet https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 
