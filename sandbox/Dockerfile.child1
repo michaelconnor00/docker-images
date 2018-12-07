@@ -1,0 +1,5 @@
+FROM test/base
+
+RUN apk update && apk add zip
+
+CMD "there"

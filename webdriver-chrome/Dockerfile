@@ -1,4 +1,4 @@
-FROM node:8-slim
+FROM node:8
 RUN node --version && npm --version
 
 # auto validate license
@@ -10,6 +10,7 @@ RUN echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
 
 RUN apt-get update
+RUN apt-get upgrade -y
 RUN apt-get install -y --force-yes \
     xvfb \
     build-essential \
@@ -26,22 +27,6 @@ RUN apt-get install -y \
     zip \
     psmisc
 
-# Install Chrome driver
-RUN wget -N --quiet https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip && \
-    unzip chromedriver_linux64.zip && \
-    chmod 755 chromedriver && \
-    mv -f chromedriver /usr/local/share/chromedriver && \
-    ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver && \
-    ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
-
-# Install Firefox driver
-RUN wget -N --quiet https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz #
-RUN tar -xzvf geckodriver-v0.18.0-linux64.tar.gz #
-RUN chmod 755 geckodriver #
-RUN mv -f geckodriver /usr/local/share/geckodriver #
-RUN ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver #
-RUN ln -s /usr/local/share/geckodriver /usr/bin/geckodriver
-
 # Install Chrome
 RUN wget --quiet https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
@@ -53,6 +38,9 @@ RUN npm install --silent \
     wdio-mocha-framework \
     wdio-spec-reporter \
     selenium-standalone \
-    wdio-selenium-standalone-service
+    wdio-selenium-standalone-service \
+    wdio-junit-reporter
 
-RUN npm install --save-dev wdio-junit-reporter
+RUN ln -s /home/node/node_modules/selenium-standalone/bin/selenium-standalone /usr/local/bin
+
+RUN selenium-standalone install
